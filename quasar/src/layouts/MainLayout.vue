@@ -1,129 +1,89 @@
 <template>
   <q-layout view="hHh Lpr lff">
-    <q-layout-header>
-      <q-toolbar
-        color="red"
-      >
+    <q-header elevated>
+      <q-toolbar>
         <q-btn
           flat
           dense
           round
-          @click="leftDrawerOpen = !leftDrawerOpen"
+          icon="menu"
           aria-label="Menu"
-        >
-          <q-icon name="menu" />
-        </q-btn>
+          @click="leftDrawerOpen = !leftDrawerOpen"
+        />
 
         <q-toolbar-title>
           Quasar App
-          <div slot="subtitle">Running on Quasar v{{ $q.version }}</div>
         </q-toolbar-title>
 
-        <q-btn flat to="/cart">
-          <transition enter-active-class="animated tada" leave-active-class="hidden">
-            <q-chip icon="shopping_cart" :key="cart_count">{{ cart_count }}</q-chip>
-          </transition>
-        </q-btn>
+        <div>Quasar v{{ $q.version }}</div>
       </q-toolbar>
-    </q-layout-header>
+    </q-header>
 
-    <q-layout-drawer
+    <q-drawer
       v-model="leftDrawerOpen"
+      show-if-above
+      bordered
       content-class="bg-amber-3"
-      id="sidebar"
     >
-      <q-list
-        no-border
-        link
-        inset-delimiter
-      >
-        <q-item>
-          <img src="~assets/logo.jpg" alt="">
-        </q-item>
-        <q-list-header>O que você quer fazer?</q-list-header>
-        <q-item to="/home">
-          <q-item-side icon="search" />
-          <q-item-main label="Quero pedir"
-            sublabel="Busque por restaurantes e faça seu pedido" />
-        </q-item>
-        <q-item to="/restaurants">
-          <q-item-side icon="fastfood" />
-          <q-item-main label="Tenho um restaurante"
-            sublabel="Cadastre seu restaurante e receba pedidos" />
-        </q-item>
-        <q-item to="/orders">
-          <q-item-side icon="shopping_cart" />
-          <q-item-main label="Meus pedidos"
-            sublabel="Acompanhe seus últimos pedidos" />
-        </q-item>
-        <q-item to="/auth">
-          <q-item-side icon="account_box" />
-          <q-item-main label="Entrar"
-            sublabel="Acesse sua conta" />
-        </q-item>
+      <q-list>
+        <q-item-label
+          header
+          class="text-grey-8"
+        >
+          Essential Links
+        </q-item-label>
+        <EssentialLink
+          v-for="link in essentialLinks"
+          :key="link.title"
+          v-bind="link"
+        />
       </q-list>
-    </q-layout-drawer>
+    </q-drawer>
 
     <q-page-container>
       <router-view />
     </q-page-container>
   </q-layout>
 </template>
-
 <script>
-import { openURL } from 'quasar';
+
+import EssentialLink from 'components/EssentialLink.vue';
+
+const linksData = [
+  {
+    title: 'Order',
+    caption: 'Can I take your order? ',
+    icon: 'search',
+    link: '',
+  },
+  {
+    title: 'I have a Restaurant',
+    caption: 'Register your restaurant',
+    icon: 'fastfood',
+    link: '',
+  },
+  {
+    title: 'My previous orders',
+    caption: 'Check you orders',
+    icon: 'shopping_cart',
+    link: '',
+  },
+  {
+    title: 'Sign in',
+    caption: '',
+    icon: 'account_box',
+    link: '',
+  },
+];
 
 export default {
-  name: 'MyLayout',
+  name: 'MainLayout',
+  components: { EssentialLink },
   data() {
     return {
-      leftDrawerOpen: this.$q.platform.is.desktop,
-      cart_count: 0,
+      leftDrawerOpen: false,
+      essentialLinks: linksData,
     };
-  },
-  methods: {
-    openURL,
-  },
-  watch: {
-    cart_count(newValue, oldValue) {
-      if (newValue > oldValue) {
-        this.$q.notify({
-          message: 'Pedido atualizado?',
-          detail: 'Um novo item foi adicionado ao seu pedido, quer ir para o carrinho de compras?',
-          type: 'positive',
-          actions: [
-            {
-              label: 'Ver pedido',
-              handler: () => {
-                this.$router.push('/cart');
-              },
-            },
-          ],
-        });
-      }
-    },
-  },
-  mounted() {
-    // setTimeout(() => {
-    //   this.cart_count += 1;
-    // }, 1000);
-    // setTimeout(() => {
-    //   this.cart_count += 1;
-    // }, 5000);
   },
 };
 </script>
-
-<style>
-#sidebar .q-item.router-link-active {
-  background: rgba(0, 0, 0, 0.1);
-}
-#sidebar .q-item.q-link:hover {
-  background: rgba(0, 0, 0, 0.2);
-}
-#sidebar .q-item img {
-  width: 80%;
-  height: auto;
-}
-
-</style>

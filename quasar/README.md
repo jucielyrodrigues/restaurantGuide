@@ -1,6 +1,6 @@
-# Restaurant (restaurant)
+# restaurant (restaurant)
 
-Restaurant Guide
+restaurante guide
 
 ## Install the dependencies
 ```bash
