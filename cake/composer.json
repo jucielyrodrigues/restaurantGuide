@@ -1,0 +1,15 @@
+{
+    "name": "jucielyrodrigues/cake",
+    "description": "restaurant",
+    "license": "MIT",
+    "require-dev": {
+        "phpunit/phpunit": "8.0"
+    },
+    "authors": [
+        {
+            "name": "Juciely Rodrigues",
+            "email": "jucielyrodrigues@gmail.com"
+        }
+    ],
+    "require": {}
+}
