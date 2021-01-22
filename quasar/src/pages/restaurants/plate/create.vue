@@ -1,8 +1,6 @@
 <template>
   <q-page padding>
-    <h1 class="q-display-2">
-      Cadastre seu prato
-    </h1>
+    <h1 class="q-display-2">Cadastre seu prato</h1>
 
     <form @submit.prevent="submit()" class="row gutter-md">
       <div class="col-12">
@@ -11,7 +9,8 @@
             type="text"
             v-model="data.title"
             float-label="Nome do prato"
-            autofocus/>
+            autofocus
+          />
         </q-field>
       </div>
 
@@ -20,7 +19,8 @@
           <q-input
             type="text"
             v-model="data.photo"
-            float-label="Foto do prato"/>
+            float-label="Foto do prato"
+          />
         </q-field>
       </div>
 
@@ -29,7 +29,8 @@
           <q-input
             type="text"
             v-model="data.description"
-            float-label="Descrição do prato"/>
+            float-label="Descrição do prato"
+          />
         </q-field>
       </div>
 
@@ -38,28 +39,29 @@
           <q-input
             type="text"
             v-model="data.price"
-            float-label="Valor do prato"/>
+            float-label="Valor do prato"
+          />
         </q-field>
       </div>
 
       <div class="col-12">
         <q-card>
           <q-card-main>
-            <div class="q-card-title">
-              Opções do prato
-            </div>
+            <div class="q-card-title">Opções do prato</div>
 
             <q-alert
               v-if="options.length === 0"
               color="warning"
               text-color="black"
-              class="q-mt-md">
+              class="q-mt-md"
+            >
               Nenhuma opção para esse prato
             </q-alert>
 
             <ul v-show="options.length > 0">
               <li class="q-my-sm" v-for="(opt, i) in options" :key="i">
-                <q-btn size="sm" color="red" @click="optionsDelete(i)">x</q-btn> {{ opt }}
+                <q-btn size="sm" color="red" @click="optionsDelete(i)">x</q-btn>
+                {{ opt }}
               </li>
             </ul>
 
@@ -67,17 +69,27 @@
               <q-input
                 type="text"
                 v-model="optionLabel"
-                float-label="Adicionar para o prato"/>
-              <q-btn color="primary" class="q-mt-md" @click="optionsAdd()">Adicionar</q-btn>
+                float-label="Add plate"
+              />
+              <q-btn color="primary" class="q-mt-md" @click="optionsAdd()"
+                >Add</q-btn
+              >
             </q-field>
           </q-card-main>
         </q-card>
       </div>
 
       <div class="col">
-        <q-btn type="submit" color="primary" class="q-my-md q-mr-sm">Salvar</q-btn>
-        <q-btn type="submit" color="secondary"
-          class="q-my-md" to="/restaurant/1/detail">Voltar</q-btn>
+        <q-btn type="submit" color="primary" class="q-my-md q-mr-sm"
+          >Salvar</q-btn
+        >
+        <q-btn
+          type="submit"
+          color="secondary"
+          class="q-my-md"
+          to="/restaurant/1/detail"
+          >Voltar</q-btn
+        >
       </div>
     </form>
   </q-page>
@@ -95,7 +107,7 @@ export default {
   methods: {
     submit() {
       this.$q.notify({
-        message: 'Prato adicionado com sucesso',
+        message: 'Plate successfully added',
         type: 'positive',
       });
     },
@@ -105,7 +117,7 @@ export default {
     optionsAdd() {
       if (this.optionLabel === null) {
         this.$q.notify({
-          message: 'Por favor, informe um título para a opção!',
+          message: 'Please type a title for the option!',
         });
         return;
       }

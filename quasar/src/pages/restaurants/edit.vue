@@ -69,7 +69,7 @@ export default {
       address: {
         address: 'Parnell street',
         number: '123',
-        neiborhood: 'd1',
+        neighborhood: 'd1',
         city: 'Dublin',
         state: 'IE',
       },

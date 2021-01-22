@@ -23,7 +23,7 @@ use Cake\Event\Event;
  * Add your application-wide methods in the class below, your controllers
  * will inherit them.
  *
- * @link https://book.cakephp.org/3.0/en/controllers.html#the-app-controller
+ * @link https://book.cakephp.org/3/en/controllers.html#the-app-controller
  */
 class AppController extends Controller
 {
@@ -46,36 +46,36 @@ class AppController extends Controller
         ]);
         $this->loadComponent('Flash');
 
-        $this->loadComponent('Auth', [
+        $this->loadComponent('Auth',[
             'authenticate' => [
-                'Form' => [
-                    'fields' => [
+                'Form'=>[
+                    'fields' =>[
                         'username' => 'email',
+
                     ]
-                ],
+              ],
                 'ADmad/JwtAuth.Jwt' => [
                     'fields' => [
                         'username' => 'id',
                     ]
                 ]
-            ],
+          ],
         ]);
 
         /*
          * Enable the following component for recommended CakePHP security settings.
-         * see https://book.cakephp.org/3.0/en/controllers/components/security.html
+         * see https://book.cakephp.org/3/en/controllers/components/security.html
          */
         //$this->loadComponent('Security');
+        $this->response = $this->response 
+           ->cors($this->request)
+           ->allowOrigin(['*'])
+           ->allowHeaders(['*'])
+           ->allowMethods(['*'])
+           ->build();   
 
-        $this->response = $this->response
-            ->cors($this->request)
-            ->allowOrigin(['*'])
-            ->allowHeaders(['*'])
-            ->allowMethods(['*'])
-            ->build();
-        
-        if ($this->request->is('options')) {
-            $this->Auth->allow();
-        }
+           if ($this->request->is('options')) {
+               $this->Auth->allow();
+           }
     }
 }

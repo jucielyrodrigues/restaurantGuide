@@ -1,6 +1,6 @@
 # CakePHP specific files #
 ##########################
-/config/app.php
+/config/app_local.php
 /config/.env
 /logs/*
 /tmp/*
@@ -16,6 +16,7 @@
 Icon?
 ehthumbs.db
 Thumbs.db
+.directory
 
 # Tool specific files #
 #######################

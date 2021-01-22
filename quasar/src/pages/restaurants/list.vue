@@ -33,16 +33,6 @@
 export default {
   data() {
     return {
-      tableData: [
-        {
-          id: 1,
-          title: 'restaurant 1',
-        },
-        {
-          id: 2,
-          title: 'restaurant 2',
-        },
-      ],
       columns: [
         {
           field: 'id',
@@ -55,10 +45,18 @@ export default {
       ],
     };
   },
+  computed: {
+    tableData() {
+      return this.$store.state.restaurants.list;
+    },
+  },
   mounted() {
-    if (this.tableData.length === 0) {
-      this.$router.push('/new-restaurant');
-    }
+    this.$store.dispatch('restaurants/all', this)
+      .then(() => {
+        if (this.tableData.length === 0) {
+          this.$router.push('/new-restaurant');
+        }
+      });
   },
 };
 </script>

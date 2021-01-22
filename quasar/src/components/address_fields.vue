@@ -15,7 +15,7 @@
         <q-input
           type="text"
           v-model="data.address"
-          float-label="Your postal Code"
+          float-label="Your address"
         />
       </q-field>
 
@@ -38,7 +38,7 @@
       <q-field>
         <q-input
           type="text"
-          v-model="data.neiborhood"
+          v-model="data.neighborhood"
           float-label="Neighborhood"
         />
       </q-field>
@@ -67,7 +67,7 @@ export default {
   props: ['value'],
   data() {
     return {
-      cep: this.value !== undefined ? this.value.cep || null : null,
+      cep: this.value !== undefined ? this.value.eircode || null : null,
       data: this.value || {},
       showAddressFields: false,
     };
@@ -75,8 +75,23 @@ export default {
   watch: {
     cep(newValue) {
       if (newValue.length === 8) {
+        const removeAuthHeader = (data, headers) => {
+          delete headers.common.Authorization;
+          return data;
+        };
+
         this.data.cep = newValue;
         this.$emit('input', this.data);
+
+        this.$axios.get(`https://viacep.com.br/ws/${newValue}/json/`, {
+          transformRequest: [removeAuthHeader],
+        }).then((res) => {
+          this.data.address = res.data.logradouro;
+          this.data.neighborhood = res.data.bairro;
+          this.data.city = res.data.localidade;
+          this.data.state = res.data.uf;
+          this.showAddressFields = true;
+        });
         this.showAddressFields = true;
       } else {
         this.showAddressFields = false;

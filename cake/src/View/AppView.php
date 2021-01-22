@@ -18,9 +18,9 @@ use Cake\View\View;
 /**
  * Application View
  *
- * Your application’s default view class
+ * Your application's default view class
  *
- * @link https://book.cakephp.org/3.0/en/views.html#the-app-view
+ * @link https://book.cakephp.org/3/en/views.html#the-app-view
  */
 class AppView extends View
 {

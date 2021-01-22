@@ -1,7 +1,7 @@
 <template>
   <q-page padding>
     <h1 class="q-display-2">
-      Your details
+      Personal identification
     </h1>
 
     <div class="row gutter-md">
@@ -25,7 +25,7 @@
                   float-label="Password"/>
               </q-field>
 
-              <q-btn type="submit" color="primary" class="q-my-md">Login in</q-btn>
+              <q-btn type="submit" color="primary" class="q-my-md">Go</q-btn>
               <!-- <q-btn color="primary" class="q-ma-md" @click="testar()">Testar</q-btn> -->
 
             </form>
@@ -37,7 +37,7 @@
         <q-card>
           <q-card-main>
             <form @submit.prevent="register()">
-              <p class="caption">sign up</p>
+              <p class="caption">Sign up</p>
 
               <q-field icon="label">
                 <q-input
@@ -58,14 +58,14 @@
                 <q-input
                   type="password"
                   v-model="dataRegister.password"
-                  float-label="password"/>
+                  float-label="Password"/>
               </q-field>
 
               <q-field icon="lock_open">
                 <q-input
                   type="password"
                   v-model="dataRegister.passwordConfirmation"
-                  float-label="Password Confirmation"/>
+                  float-label="Confirm password"/>
               </q-field>
 
               <q-btn type="submit" color="primary" class="q-my-md">Sign up</q-btn>
@@ -90,20 +90,14 @@ export default {
     };
   },
   methods: {
-    // async testar() {
-    //   const response = await this.$axios.get('/users/me.json', {
-    //     headers: {
-    //       Authorization: `Bearer ${this.token}`,
-    //     },
-    //   });
-    //   console.log(response);
-    // },
     async auth() {
       const data = qs.stringify(this.dataLogin);
       const response = await this.$axios.post('/users/login.json', data);
 
       const { token } = response.data.data;
       this.token = token;
+      this.$q.cookies.set('token', token);
+      this.$axios.defaults.headers.common.Authorization = `Bearer ${token}`;
 
       if (response.status === 200) {
         this.$q.notify({
@@ -111,6 +105,7 @@ export default {
           type: 'positive',
         });
       }
+      this.$router.push('/');
     },
     async register() {
       if (!this.dataRegister.password
@@ -120,13 +115,11 @@ export default {
         });
         return;
       }
-
       const data = qs.stringify(this.dataRegister);
       const response = await this.$axios.post('/users/add.json', data);
-
       if (response.status === 200) {
         this.$q.notify({
-          message: 'Registered successfully',
+          message: 'Successfully registered',
           type: 'positive',
         });
       }
@@ -136,4 +129,5 @@ export default {
 </script>
 
 <style>
+
 </style>
